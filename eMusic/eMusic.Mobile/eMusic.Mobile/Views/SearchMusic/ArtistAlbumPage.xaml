@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Album"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.SearchMusic.ArtistAlbumPage">
+    <ContentPage.BindingContext>
+        <vm:AlbumDetailVM />        
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+            <converters:ArtistConverter x:Key="ArtistConverter"></converters:ArtistConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label HorizontalOptions="Center" Padding="0, 10, 0, 0"
+                   FontSize="20"
+                   Text="{Binding Album.Name}"></Label>
+            <Label HorizontalOptions="Center" Text="{Binding Album.Artist, Converter={StaticResource ArtistConverter}}" FontSize="12"></Label>
+            <Image 
+                    Source="{Binding Album.Image, Converter={StaticResource ImageConverter}}" 
+                    Margin="45, 10, 45, 25"
+                    WidthRequest="150"
+                    HeightRequest="200" 
+                    Aspect="AspectFill">
+            </Image>          
+            <ListView ItemsSource="{Binding tracksList}" ItemSelected="Track_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label 
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           FontSize="16"
+                                           Padding="10, 0, 0, 0"
+                                           LineBreakMode="NoWrap">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                                        <Span Text="{x:Static system:Environment.NewLine}" />
+                                                        <Span Text="{Binding Artist, Converter={StaticResource ArtistConverter}}" FontSize="12" TextColor="Gray"/>
+                                                        <Span Text="  • " />
+                                                        <Span Text="{Binding Length}" FontSize="12"/>
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>                                        
+                                    </Grid>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

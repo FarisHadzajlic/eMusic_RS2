@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Album" 
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Album.AlbumDetailPage">
+    <ContentPage.BindingContext>
+        <vm:AlbumDetailVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+            <converters:ArtistConverter x:Key="ArtistConverter"></converters:ArtistConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>        
+            <StackLayout>
+                <Label HorizontalOptions="Center" Padding="0, 5, 0, 0" FontSize="20" Text="{Binding Album.Name}"></Label>
+                <Label HorizontalOptions="Center" Text="{Binding Album.Artist, Converter={StaticResource ArtistConverter}}" FontSize="14" Padding="0,0,0,10"></Label>
+                <Image 
+                    Source="{Binding Album.Image, Converter={StaticResource ImageConverter}}" 
+                    Margin="45, 0, 45, 25"
+                    WidthRequest="100"
+                    HeightRequest="150" 
+                    Aspect="AspectFill">
+                </Image>
+                <Label HorizontalOptions="Center"
+                   Text="{Binding Album.About, StringFormat='{0:F0}'}"
+                   Padding="20, 10, 20, 10"
+                   FontSize="12" />
+                <Button Command="{Binding BuyCommand}" Text="Buy" HeightRequest="45" Padding="10, 0, 10, 0" BackgroundColor="LightCyan" TextColor="DimGray" FontSize="Medium"></Button>
+                <StackLayout Margin="2" Grid.Row="2" Grid.ColumnSpan="2" >
+                    <Label Text="List of Songs" TextColor="CadetBlue" FontSize="16" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"></Label>
+                </StackLayout>
+                <ListView ItemsSource="{Binding tracksList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10" Orientation="Horizontal">
+                                    <StackLayout Orientation="Vertical">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="50" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="25*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label 
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           FontSize="16"
+                                           Padding="10, 0, 0, 0"
+                                           LineBreakMode="NoWrap">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <FormattedString.Spans>
+                                                            <Span Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                                            <Span Text="{x:Static system:Environment.NewLine}" />                                                         
+                                                            <Span Text="  • " />
+                                                            <Span Text="{Binding Length}" FontSize="12"/>
+                                                        </FormattedString.Spans>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Grid>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackLayout Margin="2" Grid.Row="2" Grid.ColumnSpan="2" >
+                    <Label Text="Comments" TextColor="CadetBlue" FontSize="16" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"></Label>
+                </StackLayout>
+                <StackLayout Grid.Row="3" Grid.Column="0" WidthRequest="250">
+                    <Entry Text="{Binding Comment}" Placeholder="Type a comment ..."></Entry>
+                </StackLayout>
+                <StackLayout Grid.Row="3" Grid.Column="1" WidthRequest="20">
+                    <Button Command="{Binding AddCommand}" Text="Add" HorizontalOptions="End" HeightRequest="30" BackgroundColor="RoyalBlue" TextColor="White" FontSize="14" ></Button>
+                </StackLayout>
+                <StackLayout Grid.Row="4" Grid.ColumnSpan="2">
+                    <ListView x:Name="myList" ItemsSource="{Binding commentList}" SelectedItem="{Binding SelectedComment}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10" Orientation="Horizontal" Spacing="20" Grid.Row="3" Grid.Column="0" >
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding CommentContent}" 
+                                           LineBreakMode="MiddleTruncation" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16"
+                                           TextColor="DarkSlateGray"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding DateOfComment}"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="12" />
+                                                <Label Text="{Binding User.Username}"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="12" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <Button Clicked="Button_Clicked" Text="Delete" BackgroundColor="LimeGreen" TextColor="White">
+                                        </Button>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Account.EditUserInfoPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Padding="10" VerticalOptions="StartAndExpand">
+                <Label Text="Edit informations" Margin="0,30,0,0" FontAttributes="Bold" FontSize="18"></Label>               
+                <Label Text="First name"></Label>
+                <Entry x:Name="FirstName"></Entry>
+                <Label Text="Last name"></Label>
+                <Entry x:Name="LastName"></Entry>
+                <Label Text="Email"></Label>
+                <Entry x:Name="Email"></Entry>
+                <Label Text="Phone"></Label>
+                <Entry x:Name="Phone"></Entry>
+                <Label Text="Username"></Label>
+                <Entry x:Name="Username"></Entry>
+
+                <Button Clicked="Button_Clicked" HorizontalOptions="FillAndExpand" Text="Save"></Button>
+                <Button Clicked="Button_ChangePw" HorizontalOptions="FillAndExpand" Text="Change Password"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

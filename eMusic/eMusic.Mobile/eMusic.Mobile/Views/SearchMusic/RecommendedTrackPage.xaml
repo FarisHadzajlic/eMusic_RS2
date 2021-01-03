@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:system="clr-namespace:System;assembly=netstandard" 
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.SearchMusic"
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.SearchMusic.RecommendedTrackPage"
+             Title="Recommended For You">
+    <ContentPage.BindingContext>
+        <vm:MusicTrackVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ArtistConverter x:Key="ArtistConverter"></converters:ArtistConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="noReviews" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="False">
+                <Label Text="Review few songs with positive rate so we know what are your preferences ..."
+                       TextColor="LightBlue"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="20"></Label>
+                <Image Source="notracks.png"></Image>
+            </StackLayout>
+            <Label x:Name="Textt" Text="Songs You Might Like" TextColor="CornflowerBlue" FontSize="16" HorizontalTextAlignment="Start" Padding="0,15,0,15"></Label>
+            <ListView x:Name="Review" ItemsSource="{Binding recommendedTracksList}" ItemSelected="Track_ItemSelected" IsVisible="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" 
+                                           Grid.Column="0"
+                                           FontSize="16"
+                                           Padding="10, 0, 0, 0"
+                                           LineBreakMode="NoWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="{Binding Track.Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                                    <Span Text="{x:Static system:Environment.NewLine}" />
+                                                    <Span Text="{Binding Track.Artist, Converter={StaticResource ArtistConverter}}" FontSize="12" TextColor="Gray"/>
+                                                    <Span Text="  • " />
+                                                    <Span Text="{Binding Track.Length}" FontSize="12"/>
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <ImageButton Grid.Row="0" Grid.Column="1"    
+                                                Source="add.png"
+                                                HorizontalOptions="End"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Command="{Binding PlaylistsCommand}">
+                                    </ImageButton>                                   
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label x:Name="Textt2" Text="You don't like any? Refresh page for new recommendations" TextColor="CornflowerBlue" FontSize="14" HorizontalTextAlignment="Start" Padding="0,20,0,15"></Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

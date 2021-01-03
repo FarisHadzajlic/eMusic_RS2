@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.SearchMusic"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Library.FavouriteTrackPage"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             Title="Favourite Tracks">
+    <ContentPage.BindingContext>
+        <vm:MusicTrackVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="Track" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="False" >
+                <Label Text="This folder is empty for now ..."
+                       TextColor="LightBlue"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="20"></Label>
+                <Image Source="tracks.png"></Image>
+            </StackLayout>
+            <ListView x:Name="TrackList" ItemsSource="{Binding tracksList}" ItemSelected="Track_ItemSelected" IsVisible="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           FontSize="16"
+                                           Padding="10, 5, 0, 0"
+                                           LineBreakMode="NoWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="{Binding Track.Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                                    <Span Text="{x:Static system:Environment.NewLine}" />
+                                                    <Span Text="{Binding Track.Artist.Name}" FontSize="12" TextColor="Gray"/>
+                                                    <Span Text="  • " />
+                                                    <Span Text="{Binding Track.Length}" FontSize="12"/>
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <ImageButton Grid.Row="0" Grid.Column="1"    
+                                                Source="add.png"
+                                                HorizontalOptions="End"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Command="{Binding PlaylistsCommand}">
+                                    </ImageButton>
+                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                Source="{Binding IsLikedImage}"
+                                                HorizontalOptions="End"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Command="{Binding LikeCommand}">
+                                    </ImageButton>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.SearchMusic"
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.SearchMusic.ArtistPage"
+             Title="Artists">
+    <ContentPage.BindingContext>
+        <vm:MusicArtistVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <SearchBar x:Name="searchBar"
+                       Placeholder="Search artist..."
+                       PlaceholderColor="Orange"
+                       TextColor="Orange"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Medium"
+                       FontAttributes="Italic"
+                       SearchCommand="{Binding SearchArtist}"
+                       SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+            <ListView ItemsSource="{Binding artistsList}" ItemSelected="Artist_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="15*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Row="0" Grid.Column="0">
+                                        <Frame 
+                                            Padding="0"
+                                            WidthRequest="100"
+                                            HeightRequest="100" 
+                                            CornerRadius="100"
+                                            IsClippedToBounds="True"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                            BorderColor="Black">
+                                            <Image Source="{Binding Artist.Image, Converter={StaticResource ImageConverter}}"
+                                                   Aspect="AspectFill">
+                                            </Image>
+                                        </Frame>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Vertical" Grid.Row="0" Grid.Column="1">
+                                        <Label Text="{Binding Artist.Name}" 
+                                               LineBreakMode="NoWrap" 
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               Padding="10, 10, 0, 0"
+                                               FontSize="16" />
+                                        <Label Text="{Binding Artist.Founded, StringFormat='Founded: {0:F0}'}" 
+                                               TextColor="SlateGray"
+                                               LineBreakMode="NoWrap" 
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               Padding="10, 5, 0, 0"
+                                               FontSize="10" />
+                                        <Label Text="{Binding Artist.Origin}" 
+                                               TextColor="SlateGray"
+                                               LineBreakMode="NoWrap" 
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               Padding="10, 5, 0, 0"
+                                               FontSize="10" />
+                                    </StackLayout>
+                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                Source="{Binding IsLikedImage}"
+                                                HorizontalOptions="End"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Command="{Binding LikeCommand}">
+                                    </ImageButton>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

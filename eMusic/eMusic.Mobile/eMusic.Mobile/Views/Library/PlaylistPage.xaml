@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Library" 
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Library.PlaylistPage"
+             Title="Playlists">
+    <ContentPage.BindingContext>
+        <vm:PlaylistVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Padding="25,10,0,0" Orientation="Horizontal" >
+                <Image Source="addPlaylist.png"
+                       WidthRequest="70"
+                       HeightRequest="70">
+                </Image>
+                <Label Text="Create Playlist" 
+                       LineBreakMode="NoWrap" 
+                       Style="{DynamicResource ListItemTextStyle}" 
+                       Padding="40, 25, 0, 0"
+                       FontSize="15"/>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTapped"/>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+            <ListView ItemsSource="{Binding playlistsList}"
+                      ItemSelected="Playlist_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <StackLayout>
+                                    <Image Source="{Binding Image, Converter={StaticResource ImageConverter}}"
+                                           WidthRequest="100"
+                                           HeightRequest="100"
+                                    ></Image>
+                                </StackLayout>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Name}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           Padding="10, 20, 0, 0"
+                                           FontSize="16" />
+                                    <Label Padding="10, 0, 0, 0" Text="by " FontSize="12" />
+                                    <Label Padding="10, 0, 0, 0" Text="{Binding User.Username}" FontSize="12"/>
+                                </StackLayout>                              
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

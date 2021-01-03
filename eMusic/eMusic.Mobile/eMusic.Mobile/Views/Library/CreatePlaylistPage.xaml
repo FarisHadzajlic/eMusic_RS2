@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Library" 
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Library.CreatePlaylistPage">
+    <ContentPage.BindingContext>
+        <vm:CreatePlaylistVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand"
+                     Padding="90, 0, 90, 0">
+            <Frame 
+                Padding="0"
+                WidthRequest="500"
+                HeightRequest="250" 
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                BorderColor="Black">
+                <Image 
+                    Source="{Binding Image, Converter={StaticResource ImageConverter}}" 
+                    Aspect="AspectFill">
+                </Image>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding ChangeImage}"
+                        CommandParameter="Image1" />
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label Text="Name" />
+            <Entry Text="{Binding Name}"></Entry>
+            <Button 
+                Text="Save"
+                Margin="0, 20, 0, 0"
+                CornerRadius="20"
+                Command="{Binding SaveCommand}">
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

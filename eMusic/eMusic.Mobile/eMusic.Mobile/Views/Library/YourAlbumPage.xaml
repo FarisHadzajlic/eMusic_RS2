@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Library" 
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Library.YourAlbumsPage"
+             Title="Purchased Albums">
+    <ContentPage.BindingContext>
+        <vm:YourAlbumVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="YourAlbums" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="True" >
+                <Label Text="You haven't purchased any album ..."
+                       TextColor="LightBlue"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="20"></Label>
+                <Image Source="albums.png"></Image>
+            </StackLayout>
+            <ListView x:Name="AlbumList" ItemsSource="{Binding albumsList}" ItemSelected="Album_ItemSelected" IsVisible="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="15*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Row="0" Grid.Column="0">
+                                        <Image Source="{Binding Album.Image, Converter={StaticResource ImageConverter}}"
+                                               WidthRequest="100"
+                                               HeightRequest="100"></Image>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Vertical" Grid.Row="0" Grid.Column="1">
+                                        <Label Text="{Binding Album.Name}" 
+                                               LineBreakMode="NoWrap" 
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               Padding="10, 10, 0, 0"
+                                               FontSize="16" />
+                                        <Label Text="{Binding Album.YearOfRelease, StringFormat='Year: {0:F0}'}"
+                                               LineBreakMode="NoWrap"
+                                               Padding="10, 0, 0, 0"
+                                               FontSize="12" />
+                                        <Label Text="{Binding Album.NumberOfTracks, StringFormat='Songs: {0:F0}'}"
+                                               LineBreakMode="NoWrap"
+                                               Padding="10, 0, 0, 0"
+                                               FontSize="12" />
+                                    </StackLayout>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

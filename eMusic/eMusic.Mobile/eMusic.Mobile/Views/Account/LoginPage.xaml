@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Account"
+             x:Class="eMusic.Mobile.Views.Account.LoginPage">
+    <ContentPage.BindingContext>
+        <vm:LoginVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" Padding="30">
+            <Label Text="Username"/>
+            <Entry Text="{Binding Username}"/>
+            <Label Text="Password"/>
+            <Entry Text="{Binding Password}" IsPassword="True"/>
+            <Button Text="Login" Command="{Binding LoginCommand}"/>
+            <Button Text="Register" Command="{Binding RegisterCommand}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

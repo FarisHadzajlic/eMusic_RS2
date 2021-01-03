@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:eMusic.Mobile.ViewModels.Library"
+             xmlns:system="clr-namespace:System;assembly=netstandard"             
+             xmlns:converters="clr-namespace:eMusic.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="eMusic.Mobile.Views.Library.PlaylistDetailPage">
+    <ContentPage.BindingContext>
+        <vm:PlaylistDetailVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+            <converters:ArtistConverter x:Key="ArtistConverter"></converters:ArtistConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label HorizontalOptions="Center"
+                   FontSize="20"
+                   Padding="0, 5, 0, 0"
+                   Text="{Binding Playlist.Name}"></Label>
+            <Frame 
+                Padding="5"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                BorderColor="BlueViolet">
+                <Image 
+                    Source="{Binding Image, Converter={StaticResource ImageConverter}}" 
+                    Aspect="AspectFill"
+                    WidthRequest="250"
+                    HeightRequest="250"></Image>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding ChangeImage}"
+                        CommandParameter="Image1"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <StackLayout x:Name="Songs" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="False">
+                <Label Text="Playlist Is Empty, Add Few Songs To Your Playlist ..."
+                       TextColor="LightBlue"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="20"></Label>
+                <Image Source="notracks.png"></Image>
+            </StackLayout>
+            <ListView x:Name="Playlist" ItemsSource="{Binding tracksList}"
+                      ItemSelected="Track_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Row="0" Grid.Column="0">
+                                            <Label FontSize="16"
+                                               Padding="10, 0, 0, 0"
+                                               LineBreakMode="NoWrap" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <FormattedString.Spans>
+                                                            <Span Text="{Binding Track.Name}" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                                            <Span Text="{x:Static system:Environment.NewLine}" />
+                                                            <Span Text="{Binding Track.Artist, Converter={StaticResource ArtistConverter}}" FontSize="12" TextColor="Gray"/>
+                                                            <Span Text="  • " />
+                                                            <Span Text="{Binding Track.Length}" FontSize="12"/>
+                                                        </FormattedString.Spans>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </StackLayout>
+                                        <ImageButton Grid.Row="0" Grid.Column="1"
+                                                Source="minus.png"
+                                                HorizontalOptions="End"
+                                                WidthRequest="25"
+                                                HeightRequest="25"
+                                                Clicked="RemoveTrack_Clicked">                                            
+                                        </ImageButton>
+                                    </Grid>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
